@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+		<!-- Spring支持的三种注入方式：1。属性注入2.构造函数(构造器)注入3.工厂方法注入 -->
+		
+		
+		<!-- spring框架管理所有的对象，对象称为bean -->
+		
+		<!-- 
+			配置spring的bean
+			value 注值使用,字面量
+			ref 注值使用，引用其他bean,值与bean的属性id值对应
+		 -->
+		
+		<!-- 1.属性注入
+		 spring框架管理所有的对象，独象称为bean 
+		配置spring的bean,一个bean就是一个对象 ,映射bean类
+		<bean id="person" class="com.yc.spring.day01.Person">
+			<property name="name" value="小黑" />
+			<property name="age" value="22" />
+			 phone是一个对象（引用），所以需要一个ref属性 ,这称为一个对象的注入
+			<property name="phone" ref="phone"></property>
+		</bean>
+		
+		<bean id="phone" class="com.yc.spring.day01.Phone">
+			<property name="brand" value="华为" />
+			<property name="color" value="黑色" />
+			<property name="price" value="3800" />
+		</bean>
+		
+		 
+		<bean id="person02" class="com.yc.spring.day01.Person">
+			<property name="name" value="小黑" />
+			<property name="age" value="32" />
+		    phone是一个对象（引用），所以需要一个ref属性 ,这称为一个对象的注入
+			<property name="phone" ref="phone"></property>
+		</bean>
+		
+		
+		<bean id="phone02" class="com.yc.spring.day01.Phone">
+			<property name="color" value="黑色" />
+			<property name="brand" value="苹果" />
+			<property name="price" value="6800" />
+		</bean>
+	
+		 2.属性注入的简写形式
+		<bean id="person" class="com.yc.spring.day01.Person">
+			<property name="name" value="小黑" />
+			<property name="age" value="22" />
+			<property name="phone">
+				<bean class="com.yc.spring.day01.Phone">
+					<property name="color" value="黑色" />
+					<property name="brand" value="苹果" />
+					<property name="price" value="6800" />
+				</bean>
+			</property>
+		</bean>
+		-->
+		
+		<!-- 3.构造方法注入，需要有对应的构造函数 (这一点是需要注意的)
+
+		<bean id="person" class="com.yc.spring.day01.Person">
+			 index表示字段的位置 
+			<constructor-arg value="袁志辉" index="0" />
+			<constructor-arg value="22" index="1" />
+			<constructor-arg ref="phone" index="2" />
+		</bean>
+		
+		<bean id="phone" class="com.yc.spring.day01.Phone">
+			<property name="brand" value="华为" />
+			<property name="color" value="黑色" />
+			<property name="price" value="3800" />
+		</bean>
+
+		-->
+		
+		<!--<bean id="person" class="com.yc.spring.day01.Person">
+			<property name="name">
+				<value><![CDATA[<<小黑黑>>]]></value>
+			</property>
+			<property name="age" value="2" />
+			<property name="phone" ref="phone"></property>
+		</bean>
+		 使用构造参数，需要有对应的构造函数
+		<bean id="person02" class="com.yc.spring.day01.Person">
+			<constructor-arg value="袁志辉" index="0" />
+			<constructor-arg value="22" index="1" />
+			<constructor-arg ref="phone" index="2" /> -->
+			<!-- 不写构造函数,那么为null -->
+			<!-- constructor-arg index="2">
+				<null/>
+			</constructor-arg-->
+			<!--
+		</bean>-->
+		
+		<!--
+		<bean id="phone" class="com.yc.spring.day01.Phone">
+				<property name="color" value="黑色" />
+				<property name="brand" value="苹果" />
+				<property name="price" value="6800" />
+		</bean>
+		
+	
+		集合类型的注入
+		<bean id="person03" class="com.yc.spring.day01.Person">
+			<property name="name" value="小白" />
+			<property name="age" value="32" />
+			phone是一个对象（引用），所以需要一个ref属性 ,这称为一个对象的注入
+			<property name="phone" ref="phone" />
+			数组
+			<property name="strArr">
+				<array>
+					<value>yzh1</value>
+					<value>yzh2</value>
+					<value>yzh3</value>
+				</array>
+			</property> 
+			集合list 
+			<property name="strList" ref="mylist" />
+			集合set 
+			<property name="strSet">
+				<set>
+					<value>yzh7</value>
+					<value>yzh8</value>
+					<value>yzh9</value>
+				</set>
+			</property>
+			
+			集合map
+			<property name="strMap">
+				<map>
+					<entry key="A" value="yzh10"/>
+					<entry key="B" value="yzh11"/>
+				</map>
+			</property>
+			
+			集合Properties，就是Map
+			<property name="strProp">
+				<props>
+					<prop key="a">paaaaaa</prop>
+					<prop key="b">pbbbbbb</prop>
+				</props>
+			</property>
+		</bean>
+	
+	
+		util工具外部注入,定义id,再在内部针对id进行注入
+		<util:list id="mylist">
+			<value>flaaaa</value>
+			<value>flbbbb</value>
+			<value>flcccc</value>
+		</util:list>-->
+		
+		<!-- 属性注入简约版 
+		<bean id="person" class="com.yc.spring.day01.Person" p:name="袁志辉" 
+		p:age="22" p:phone-ref="phone" />
+		
+		<bean id="phone" class="com.yc.spring.day01.Phone" p:color="彩色" 
+		p:brand="三星" p:price="120" />
+	-->
+	
+	<!-- Spring IOC容器的自动装配Bean,需要做的仅仅是autowrite属性指定自动装配
+		autowire="byName"(根据名称制动装配)：必须将目标bean的名称和属性名设置得完全相同
+		autowire="byType"(根据类型动装配)：必须将目标bean的类型和相同
+		<bean id="person" class="com.yc.spring.day01.Person" p:name="袁志辉" 
+		p:age="22" autowire="byType"/>
+		<bean id="phone" class="com.yc.spring.day01.Phone" p:color="彩色" 
+		p:brand="三星" p:price="120" />
+	-->
+	
+	<!-- 
+	<bean id="person" class="com.yc.spring.day01.Person" p:name="袁志辉" 
+	p:age="22" p:phone-ref="phone"/>
+	继承关系 
+	<bean id="person02" parent="person"/>
+		
+	<bean id="phone" class="com.yc.spring.day01.Phone" p:color="彩色" 
+	p:brand="三星" p:price="120" />
+	-->
+	
+	<!-- 抽象 -->
+	<bean id="person" class="com.yc.spring.day01.Person" p:name="袁志辉" 
+	p:age="22" abstract="true"/>
+	<bean id="person02" parent="person" p:phone-ref="phone"/>
+		
+	<bean id="phone" class="com.yc.spring.day01.Phone" p:color="彩色" 
+	p:brand="三星" p:price="120" />
+</beans>
